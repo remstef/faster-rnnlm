@@ -80,6 +80,8 @@ class WordReader {
 
   // amount of bytes that were read from the start of the chunk
   int64_t GetDoneByteCount() const;
+    
+  bool print_newline;
 
  protected:
   FILE* file_;

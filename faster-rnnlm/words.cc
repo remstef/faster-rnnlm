@@ -15,10 +15,10 @@ const double kHashMaxFactor = 0.8;
 
 const WordIndex Vocabulary::kWordOOV;
 
-
 // ============================================================================
 // ============================== WordReader ==================================
 // ============================================================================
+const bool print_newline = true;
 
 inline bool IsSpace(char c) {
   return c == ' ' || c == '\r' || c == '\t' ||  c == '\n';
@@ -311,7 +311,7 @@ SentenceReader::SentenceReader(
     , sentence_length_(0)
     , sentence_id_(-1)
     , vocab_(vocab)
-    , unk_word_(vocab.GetIndexByWord("<unk>"))
+    , unk_word_(vocab.GetIndexByWord("is"))
     , reverse_(reverse)
     , done_(false)
     , oov_occured_(false)

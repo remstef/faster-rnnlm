@@ -36,7 +36,7 @@ const bool kHaveCudaSupport = false;
 const bool kHaveCudaSupport = true;
 #endif
 const int64_t kReportEveryWords = 50000;
-const OOVPolicy kOOVPolicy = kSkipSentence;
+const OOVPolicy kOOVPolicy = kConvertToUnk;
 
 // Run time learning parameters
 // Constant outside main
@@ -177,6 +177,8 @@ Real EvaluateLM(NNet* nnet, const std::string& filename, bool print_logprobs, bo
             output.row(target - 1).data(), &nnet->maxent_layer);
 
         sen_logprob -= logprob;
+          //nnet->vocab
+        printf("%s:%f ", nnet->vocab.GetWordByIndex(sen[target]), logprob);
       }
     } else {
       // Noise Contrastive Estimation
@@ -197,12 +199,13 @@ Real EvaluateLM(NNet* nnet, const std::string& filename, bool print_logprobs, bo
           &logprob_per_pos);
       for (int i = 0; i < seq_length; ++i) {
         sen_logprob -= logprob_per_pos[i];
+        printf("%s:%f ", nnet->vocab.GetWordByIndex(sen[i+1]), logprob_per_pos[i]);
       }
     }
     n_words += seq_length;
     logprob_sum += sen_logprob;
     if (print_logprobs) {
-      printf("%f\n", -sen_logprob);
+      printf("\t%f\n", -sen_logprob);
     }
   }
 
